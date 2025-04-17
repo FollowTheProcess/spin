@@ -8,11 +8,19 @@ import (
 	"sync"
 	"sync/atomic"
 	"time"
+
+	"github.com/FollowTheProcess/hue"
 )
 
 const (
 	// frameRate is the rate at which spinner frames are rendered.
 	frameRate = 100 * time.Millisecond
+
+	// defaultMessageStyle is the default style for the spinner message.
+	defaultMessageStyle = hue.Bold
+
+	// defaultFrameStyle is the default style for the spinner frames.
+	defaultFrameStyle = hue.Cyan
 
 	// erase is the ANSI code for erasing the current line and resetting the cursor
 	// position back to the start of the line.
@@ -23,20 +31,30 @@ const (
 
 // Spinner contains the spinner state.
 type Spinner struct {
-	w       io.Writer      // Where to draw the spinner
-	stop    chan struct{}  // Signal for the spinner to stop
-	msg     string         // Message to display during spinning e.g. "Loading"
-	wg      sync.WaitGroup // Manages the rendering goroutine
-	running atomic.Bool    // Whether the spinner is currently running
+	w            io.Writer      // Where to draw the spinner
+	stop         chan struct{}  // Signal for the spinner to stop
+	msg          string         // Message to display during spinning e.g. "Loading"
+	wg           sync.WaitGroup // Manages the rendering goroutine
+	running      atomic.Bool    // Whether the spinner is currently running
+	messageStyle hue.Style      // Colour/style for the spinner message
+	frameStyle   hue.Style      // Colour/style for the spinner animation
 }
 
 // New returns a new [Spinner].
-func New(w io.Writer, msg string) *Spinner {
-	return &Spinner{
-		w:    w,
-		stop: make(chan struct{}),
-		msg:  msg,
+func New(w io.Writer, msg string, options ...Option) *Spinner {
+	spinner := &Spinner{
+		w:            w,
+		stop:         make(chan struct{}),
+		msg:          msg,
+		messageStyle: defaultMessageStyle,
+		frameStyle:   defaultFrameStyle,
 	}
+
+	for _, option := range options {
+		option(spinner)
+	}
+
+	return spinner
 }
 
 // Start starts the spinner animation.
@@ -59,7 +77,7 @@ func (s *Spinner) Start() {
 			case <-s.stop:
 				return
 			case <-time.Tick(frameRate):
-				fmt.Fprintf(s.w, "%s%c %s...", erase, frames[current], s.msg)
+				fmt.Fprintf(s.w, "%s%s %s...", erase, s.frameStyle.Text(string(frames[current])), s.messageStyle.Text(s.msg))
 				current = (current + 1) % len(frames)
 			}
 		}
