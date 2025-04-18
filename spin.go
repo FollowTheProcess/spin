@@ -69,7 +69,7 @@ func (s *Spinner) Start() {
 	s.wg.Add(1)
 	go func() {
 		// Store the frames and the index locally so no need for synchronisation
-		frames := [...]rune{'⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'}
+		frames := [...]string{"⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"}
 		current := 0
 		defer s.wg.Done()
 		for {
@@ -77,7 +77,7 @@ func (s *Spinner) Start() {
 			case <-s.stop:
 				return
 			case <-time.Tick(frameRate):
-				fmt.Fprintf(s.w, "%s%s %s...", erase, s.frameStyle.Text(string(frames[current])), s.messageStyle.Text(s.msg))
+				fmt.Fprintf(s.w, "%s%s %s...", erase, s.frameStyle.Text(frames[current]), s.messageStyle.Text(s.msg))
 				current = (current + 1) % len(frames)
 			}
 		}
