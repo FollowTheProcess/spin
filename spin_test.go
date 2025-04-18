@@ -35,6 +35,29 @@ func TestSpinner(t *testing.T) {
 	}
 }
 
+func TestDo(t *testing.T) {
+	buf := &bytes.Buffer{}
+
+	spinner := spin.New(buf, "Testing", spin.FrameStyle(hue.Yellow), spin.MessageStyle(hue.Blue))
+	spinner.Do(func() {
+		time.Sleep(300 * time.Millisecond)
+	})
+
+	got := buf.String()
+
+	found := false
+	for _, frame := range frames {
+		if strings.Contains(got, frame) {
+			found = true
+			break
+		}
+	}
+
+	if !found {
+		t.Fatalf("expected output to contain a spinner frame:\n\n%s\n", got)
+	}
+}
+
 func TestDoubleStart(t *testing.T) {
 	buf := &bytes.Buffer{}
 
