@@ -7,14 +7,22 @@
 [![CI](https://github.com/FollowTheProcess/spin/workflows/CI/badge.svg)](https://github.com/FollowTheProcess/spin/actions?query=workflow%3ACI)
 [![codecov](https://codecov.io/gh/FollowTheProcess/spin/branch/main/graph/badge.svg)](https://codecov.io/gh/FollowTheProcess/spin)
 
-A simple terminal spinner
+A very simple terminal spinner
 
-> [!WARNING]
-> **spin is in early development and is not yet ready for use**
-
-![caution](./img/caution.png)
+<p align="center">
+<img src="https://github.com/FollowTheProcess/spin/raw/main/docs/img/demo.gif" alt="demo">
+</p>
 
 ## Project Description
+
+I needed a very simple, nice looking terminal spinner that didn't bring in a shed load of dependencies. So here it is!
+
+It has a few nicities:
+
+- Auto terminal detection and colouring via [hue]
+- Customisable colours
+- Custom progress message
+- Simple and convenient API
 
 ## Installation
 
@@ -24,9 +32,53 @@ go get github.com/FollowTheProcess/spin@latest
 
 ## Quickstart
 
+```go
+package main
+
+import (
+    "os"
+    "time"
+    
+    "github.com/FollowTheProcess/spin"
+)
+
+func main() {
+    spinner := spin.New(os.Stdout, "Digesting")
+
+    spinner.Start()
+    defer spinner.Stop()
+
+    time.Sleep(2 * time.Second)
+}
+```
+
+You can also wrap a function in a spinner...
+
+```go
+package main
+
+import (
+    "os"
+    "time"
+    
+    "github.com/FollowTheProcess/spin"
+)
+
+func main() {
+    spinner := spin.New(os.Stdout, "Digesting")
+
+    // This is equivalent to the example above, Do will handle
+    // starting and stopping the spinner for you
+    spinner.Do(func() {
+        time.Sleep(2 * time.Second)
+    })
+}
+```
+
 ### Credits
 
 This package was created with [copier] and the [FollowTheProcess/go_copier] project template.
 
 [copier]: https://copier.readthedocs.io/en/stable/
 [FollowTheProcess/go_copier]: https://github.com/FollowTheProcess/go_copier
+[hue]: https://github.com/FollowTheProcess/hue

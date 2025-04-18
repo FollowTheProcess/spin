@@ -9,7 +9,7 @@ tasks:
   default:
     desc: List all available tasks
     silent: true
-    cmds: 
+    cmds:
       - task --list
 
   tidy:
@@ -36,14 +36,14 @@ tasks:
       - go.mod
       - go.sum
       - "**/testdata/**/*"
-    cmds: 
+    cmds:
       - go test -race ./... {{ .CLI_ARGS }}
 
   bench:
     desc: Run all project benchmarks
     sources:
       - "**/*.go"
-    cmds: 
+    cmds:
       - go test ./... -run None -benchmem -bench . {{ .CLI_ARGS }}
 
   lint:
@@ -69,6 +69,17 @@ tasks:
     cmds:
       - pkgsite -open
 
+  demo:
+    desc: Render the demo gifs
+    sources:
+      - ./docs/src/*.tape
+      - "**/*.go"
+    preconditions:
+      - sh: command -v vhs
+        msg: vhs not installed, see https://github.com/charmbracelet/vhs
+    cmds:
+      - for file in ./docs/src/*.tape; do vhs "$file"; done
+
   cov:
     desc: Calculate test coverage and render the html
     generates:
@@ -85,7 +96,7 @@ tasks:
 
   sloc:
     desc: Print lines of code
-    cmds: 
+    cmds:
       - fd . -e go | xargs wc -l | sort -nr | head
 
   clean:
