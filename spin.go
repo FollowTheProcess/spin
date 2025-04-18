@@ -97,3 +97,11 @@ func (s *Spinner) Stop() {
 
 	fmt.Fprint(s.w, erase) // Erase the line
 }
+
+// Do runs the given function behind a spinner, automatically starting
+// and stopping the spinner.
+func (s *Spinner) Do(fn func()) {
+	s.Start()
+	defer s.Stop()
+	fn()
+}
