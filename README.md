@@ -15,7 +15,7 @@ A very simple terminal spinner
 
 ## Project Description
 
-I needed a very simple, nice looking terminal spinner that didn't bring in a shed load of dependencies. So here it is!
+I needed a very simple, minimal overhead, nice looking terminal spinner that didn't bring in a shed load of dependencies. So here it is!
 
 It has a few nicities:
 
