@@ -109,7 +109,7 @@ func (s *Spinner) Do(fn func()) {
 	fn()
 }
 
-// isTerminal returns whether w points to [os.Stdout] and whether
+// isTerminal returns whether w points to an [*os.File] and whether
 // that is itself a tty.
 func isTerminal(w io.Writer) bool {
 	file, ok := w.(*os.File)
