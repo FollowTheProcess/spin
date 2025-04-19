@@ -5,11 +5,13 @@ package spin
 import (
 	"fmt"
 	"io"
+	"os"
 	"sync"
 	"sync/atomic"
 	"time"
 
 	"github.com/FollowTheProcess/hue"
+	"golang.org/x/term"
 )
 
 const (
@@ -59,8 +61,9 @@ func New(w io.Writer, msg string, options ...Option) *Spinner {
 
 // Start starts the spinner animation.
 func (s *Spinner) Start() {
-	if s.running.Load() {
-		// If it's already running, we have nothing to do
+	if s.running.Load() || !isTerminal(s.w) {
+		// If it's already running, or if it's not hooked up to a terminal
+		// there's nothing for us to do
 		return
 	}
 
@@ -104,4 +107,19 @@ func (s *Spinner) Do(fn func()) {
 	s.Start()
 	defer s.Stop()
 	fn()
+}
+
+// isTerminal returns whether w points to an [*os.File] and whether
+// that is itself a tty.
+func isTerminal(w io.Writer) bool {
+	file, ok := w.(*os.File)
+	if !ok {
+		return false
+	}
+
+	if file == nil {
+		return false
+	}
+
+	return term.IsTerminal(int(file.Fd()))
 }

@@ -5,7 +5,6 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/FollowTheProcess/spin)](https://goreportcard.com/report/github.com/FollowTheProcess/spin)
 [![GitHub](https://img.shields.io/github/v/release/FollowTheProcess/spin?logo=github&sort=semver)](https://github.com/FollowTheProcess/spin)
 [![CI](https://github.com/FollowTheProcess/spin/workflows/CI/badge.svg)](https://github.com/FollowTheProcess/spin/actions?query=workflow%3ACI)
-[![codecov](https://codecov.io/gh/FollowTheProcess/spin/branch/main/graph/badge.svg)](https://codecov.io/gh/FollowTheProcess/spin)
 
 A very simple terminal spinner
 
