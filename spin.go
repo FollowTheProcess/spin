@@ -1,6 +1,6 @@
 // Package spin provides a simple, easy to use terminal spinner with configurable styles
 // to provide progress information in command line applications.
-package spin
+package spin // import "go.followtheprocess.codes/spin"
 
 import (
 	"fmt"
