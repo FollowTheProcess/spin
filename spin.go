@@ -10,7 +10,7 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/FollowTheProcess/hue"
+	"go.followtheprocess.codes/hue"
 	"golang.org/x/term"
 )
 

@@ -1,9 +1,9 @@
-module github.com/FollowTheProcess/spin
+module go.followtheprocess.codes/spin
 
 go 1.24
 
 require (
-	github.com/FollowTheProcess/hue v0.5.2
+	go.followtheprocess.codes/hue v0.6.0
 	golang.org/x/term v0.32.0
 )
 

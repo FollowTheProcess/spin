@@ -1,7 +1,7 @@
 # spin
 
 [![License](https://img.shields.io/github/license/FollowTheProcess/spin)](https://github.com/FollowTheProcess/spin)
-[![Go Reference](https://pkg.go.dev/badge/github.com/FollowTheProcess/spin.svg)](https://pkg.go.dev/github.com/FollowTheProcess/spin)
+[![Go Reference](https://pkg.go.dev/badge/go.followtheprocess.codes/spin.svg)](https://pkg.go.dev/go.followtheprocess.codes/spin)
 [![Go Report Card](https://goreportcard.com/badge/github.com/FollowTheProcess/spin)](https://goreportcard.com/report/github.com/FollowTheProcess/spin)
 [![GitHub](https://img.shields.io/github/v/release/FollowTheProcess/spin?logo=github&sort=semver)](https://github.com/FollowTheProcess/spin)
 [![CI](https://github.com/FollowTheProcess/spin/workflows/CI/badge.svg)](https://github.com/FollowTheProcess/spin/actions?query=workflow%3ACI)
@@ -26,7 +26,7 @@ It has a few nicities:
 ## Installation
 
 ```shell
-go get github.com/FollowTheProcess/spin@latest
+go get go.followtheprocess.codes/spin@latest
 ```
 
 ## Quickstart
@@ -38,7 +38,7 @@ import (
     "os"
     "time"
     
-    "github.com/FollowTheProcess/spin"
+    "go.followtheprocess.codes/spin"
 )
 
 func main() {
@@ -60,7 +60,7 @@ import (
     "os"
     "time"
     
-    "github.com/FollowTheProcess/spin"
+    "go.followtheprocess.codes/spin"
 )
 
 func main() {

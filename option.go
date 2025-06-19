@@ -1,6 +1,6 @@
 package spin
 
-import "github.com/FollowTheProcess/hue"
+import "go.followtheprocess.codes/hue"
 
 // Option is a functional option for configuring a [Spinner].
 type Option func(s *Spinner)

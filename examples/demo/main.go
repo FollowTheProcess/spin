@@ -4,7 +4,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/FollowTheProcess/spin"
+	"go.followtheprocess.codes/spin"
 )
 
 const duration = 2 * time.Second
