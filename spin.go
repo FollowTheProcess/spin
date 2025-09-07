@@ -69,12 +69,10 @@ func (s *Spinner) Start() {
 
 	s.running.Store(true)
 
-	s.wg.Add(1)
-	go func() {
+	s.wg.Go(func() {
 		// Store the frames and the index locally so no need for synchronisation
 		frames := [...]string{"⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"}
 		current := 0
-		defer s.wg.Done()
 		for {
 			select {
 			case <-s.stop:
@@ -84,7 +82,7 @@ func (s *Spinner) Start() {
 				current = (current + 1) % len(frames)
 			}
 		}
-	}()
+	})
 }
 
 // Stop halts the spinner animation.
