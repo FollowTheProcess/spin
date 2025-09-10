@@ -3,7 +3,7 @@ module go.followtheprocess.codes/spin
 go 1.25
 
 require (
-	go.followtheprocess.codes/hue v0.6.0
+	go.followtheprocess.codes/hue v0.7.0
 	golang.org/x/term v0.35.0
 )
 
