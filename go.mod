@@ -1,6 +1,6 @@
 module go.followtheprocess.codes/spin
 
-go 1.25
+go 1.25.7
 
 require (
 	go.followtheprocess.codes/hue v1.0.0
