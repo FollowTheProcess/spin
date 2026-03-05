@@ -119,5 +119,5 @@ func isTerminal(w io.Writer) bool {
 		return false
 	}
 
-	return term.IsTerminal(int(file.Fd()))
+	return term.IsTerminal(int(file.Fd())) //nolint:gosec // Int overflow not really possible
 }
