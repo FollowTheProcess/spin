@@ -18,3 +18,11 @@ func FrameStyle(style hue.Style) Option {
 		s.frameStyle = style
 	}
 }
+
+// WithForceEnabled bypasses the terminal check, causing the spinner to render
+// even when the writer is not a TTY. Useful for CI environments or testing.
+func WithForceEnabled() Option {
+	return func(s *Spinner) {
+		s.forceEnabled = true
+	}
+}
