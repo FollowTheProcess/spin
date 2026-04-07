@@ -10,7 +10,9 @@ import (
 	"go.followtheprocess.codes/spin"
 )
 
-func TestSpinnerStartWritesFramesAndMessage(t *testing.T) {
+const eraseSeq = "\r\x1b[K"
+
+func TestSpinnerOutput(t *testing.T) {
 	tests := []struct {
 		name string
 		msg  string
@@ -24,31 +26,20 @@ func TestSpinnerStartWritesFramesAndMessage(t *testing.T) {
 				var buf bytes.Buffer
 				s := spin.New(&buf, tt.msg, spin.WithForceEnabled())
 				s.Start()
-				time.Sleep(250 * time.Millisecond) // fake: two ticks at 100ms and 200ms
+				time.Sleep(250 * time.Millisecond)
 				synctest.Wait()
 				s.Stop()
 
-				if output := buf.String(); !strings.Contains(output, tt.msg) {
+				output := buf.String()
+				if !strings.Contains(output, tt.msg) {
 					t.Errorf("output %q does not contain message %q", output, tt.msg)
+				}
+				if !strings.HasSuffix(output, eraseSeq) {
+					t.Errorf("output %q does not end with ANSI erase sequence", output)
 				}
 			})
 		})
 	}
-}
-
-func TestSpinnerStopErasesLine(t *testing.T) {
-	synctest.Test(t, func(t *testing.T) {
-		var buf bytes.Buffer
-		s := spin.New(&buf, "Loading", spin.WithForceEnabled())
-		s.Start()
-		time.Sleep(250 * time.Millisecond)
-		synctest.Wait()
-		s.Stop()
-
-		if output := buf.String(); !strings.HasSuffix(output, "\r\x1b[K") {
-			t.Errorf("output %q does not end with ANSI erase sequence", output)
-		}
-	})
 }
 
 func TestSpinnerStopWhenNotRunningIsNoOp(t *testing.T) {
@@ -91,7 +82,7 @@ func TestSpinnerStartWhenAlreadyRunningIsNoOp(t *testing.T) {
 		s.Stop() // must not deadlock
 
 		// A single erase sequence must appear at the end — not multiple.
-		if output := buf.String(); !strings.HasSuffix(output, "\r\x1b[K") {
+		if output := buf.String(); !strings.HasSuffix(output, eraseSeq) {
 			t.Errorf("output %q does not end with a single erase sequence after double Start", output)
 		}
 	})
@@ -120,7 +111,7 @@ func TestSpinnerDoStartsAndStopsAroundFunction(t *testing.T) {
 		if !strings.Contains(output, "Loading") {
 			t.Errorf("output %q does not contain message", output)
 		}
-		if !strings.HasSuffix(output, "\r\x1b[K") {
+		if !strings.HasSuffix(output, eraseSeq) {
 			t.Errorf("output %q does not end with erase sequence", output)
 		}
 	})
