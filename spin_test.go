@@ -24,6 +24,7 @@ func TestSpinnerOutput(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			synctest.Test(t, func(t *testing.T) {
 				var buf bytes.Buffer
+
 				s := spin.New(&buf, tt.msg, spin.WithForceEnabled())
 				s.Start()
 				time.Sleep(250 * time.Millisecond)
@@ -34,6 +35,7 @@ func TestSpinnerOutput(t *testing.T) {
 				if !strings.Contains(output, tt.msg) {
 					t.Errorf("output %q does not contain message %q", output, tt.msg)
 				}
+
 				if !strings.HasSuffix(output, eraseSeq) {
 					t.Errorf("output %q does not end with ANSI erase sequence", output)
 				}
@@ -44,6 +46,7 @@ func TestSpinnerOutput(t *testing.T) {
 
 func TestSpinnerStopWhenNotRunningIsNoOp(t *testing.T) {
 	var buf bytes.Buffer
+
 	s := spin.New(&buf, "Loading", spin.WithForceEnabled())
 	s.Stop() // must not panic or write anything
 
@@ -55,6 +58,7 @@ func TestSpinnerStopWhenNotRunningIsNoOp(t *testing.T) {
 func TestSpinnerStopCalledTwiceIsNoOp(t *testing.T) {
 	synctest.Test(t, func(t *testing.T) {
 		var buf bytes.Buffer
+
 		s := spin.New(&buf, "Loading", spin.WithForceEnabled())
 		s.Start()
 		time.Sleep(250 * time.Millisecond)
@@ -74,6 +78,7 @@ func TestSpinnerStopCalledTwiceIsNoOp(t *testing.T) {
 func TestSpinnerStartWhenAlreadyRunningIsNoOp(t *testing.T) {
 	synctest.Test(t, func(t *testing.T) {
 		var buf bytes.Buffer
+
 		s := spin.New(&buf, "Loading", spin.WithForceEnabled())
 		s.Start()
 		s.Start() // second call must not start a second goroutine
@@ -90,9 +95,11 @@ func TestSpinnerStartWhenAlreadyRunningIsNoOp(t *testing.T) {
 
 func TestSpinnerDoExecutesFunction(t *testing.T) {
 	var buf bytes.Buffer
+
 	s := spin.New(&buf, "Loading", spin.WithForceEnabled())
 
 	ran := false
+
 	s.Do(func() { ran = true })
 
 	if !ran {
@@ -103,6 +110,7 @@ func TestSpinnerDoExecutesFunction(t *testing.T) {
 func TestSpinnerDoStartsAndStopsAroundFunction(t *testing.T) {
 	synctest.Test(t, func(t *testing.T) {
 		var buf bytes.Buffer
+
 		s := spin.New(&buf, "Loading", spin.WithForceEnabled())
 
 		s.Do(func() { time.Sleep(250 * time.Millisecond) })
@@ -111,6 +119,7 @@ func TestSpinnerDoStartsAndStopsAroundFunction(t *testing.T) {
 		if !strings.Contains(output, "Loading") {
 			t.Errorf("output %q does not contain message", output)
 		}
+
 		if !strings.HasSuffix(output, eraseSeq) {
 			t.Errorf("output %q does not end with erase sequence", output)
 		}
@@ -120,6 +129,7 @@ func TestSpinnerDoStartsAndStopsAroundFunction(t *testing.T) {
 func TestSpinnerNonTerminalWriterProducesNoOutput(t *testing.T) {
 	synctest.Test(t, func(t *testing.T) {
 		var buf bytes.Buffer
+
 		s := spin.New(&buf, "Loading") // no WithForceEnabled — Start is a no-op
 		s.Start()
 		time.Sleep(250 * time.Millisecond)
