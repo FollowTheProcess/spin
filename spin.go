@@ -77,8 +77,10 @@ func (s *Spinner) Start() {
 		// Store the frames and the index locally so no need for synchronisation.
 		frames := [...]string{"⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"}
 		current := 0
+
 		ticker := time.NewTicker(frameRate)
 		defer ticker.Stop()
+
 		for {
 			select {
 			case <-s.stop:
@@ -109,6 +111,7 @@ func (s *Spinner) Stop() {
 func (s *Spinner) Do(fn func()) {
 	s.Start()
 	defer s.Stop()
+
 	fn()
 }
 
