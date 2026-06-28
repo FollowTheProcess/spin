@@ -9,7 +9,7 @@
 A very simple terminal spinner
 
 <p align="center">
-<img src="https://github.com/FollowTheProcess/spin/raw/main/docs/img/demo.gif" alt="demo">
+<img src="https://assets.followtheprocess.codes/projects/spin/demo.gif" alt="demo">
 </p>
 
 ## Project Description
